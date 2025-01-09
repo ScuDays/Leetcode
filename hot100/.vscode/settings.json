@@ -13,6 +13,7 @@
         "functional": "cpp",
         "bitset": "cpp",
         "utility": "cpp",
-        "*.tcc": "cpp"
+        "*.tcc": "cpp",
+        "set": "cpp"
     }
 }
