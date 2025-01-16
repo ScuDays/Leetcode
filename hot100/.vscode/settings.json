@@ -14,6 +14,7 @@
         "bitset": "cpp",
         "utility": "cpp",
         "*.tcc": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "algorithm": "cpp"
     }
 }
