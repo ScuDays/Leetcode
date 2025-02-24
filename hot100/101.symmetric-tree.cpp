@@ -86,6 +86,8 @@ using namespace std;
 //          TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 //      };
     
+
+// 我的思路，把左右两棵树，分别对称递归填到数组里，然后比较数组。
 class Solution {
 public:
 
