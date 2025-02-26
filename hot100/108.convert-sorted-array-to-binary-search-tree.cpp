@@ -77,22 +77,35 @@ using namespace std;
  * };
  */
 
-   struct TreeNode {
-         int val;
-         TreeNode *left;
-         TreeNode *right;
-         TreeNode() : val(0), left(nullptr), right(nullptr) {}
-         TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-         TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
-     };
-    
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+
+ // 二分递归
+ // 出现问题，传指针的时候，我们要修改指针的值，所以要传指针的指针，前面忘了这个事情了。
 class Solution {
-public:
-    TreeNode* sortedArrayToBST(vector<int>& nums) {
-        
-    }
-};
-// @lc code=end
+    public:
+        TreeNode* sortedArrayToBST(vector<int>& nums) {
+            TreeNode* root = nullptr;
+            recure(&root, nums, 0, nums.size() - 1);
+            return root;
+        }
+        void recure(TreeNode** root, vector<int> &nums, int left, int right){
+            if(left > right)return;
+            int mid = (right - left) / 2 + left;
+            *root = new TreeNode(nums[mid]);
+            recure(&((*root)->left), nums, left, mid - 1);
+            recure(&((*root)->right), nums, mid + 1, right);
+        }
+    };c code=end
 
 
 
