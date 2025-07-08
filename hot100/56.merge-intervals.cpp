@@ -70,22 +70,78 @@ using namespace std;
 #include <vector>
 // @lcpr-template-end
 // @lc code=start
-class Solution
-{
 
+
+// 这道题主要的问题就在于
+// 循环中如果刚好最后一个区间也是可以和前面一个区间合并的话，
+                    // if (intervals[j][1] >= max) {
+                    //     max = intervals[j][1];
+                    //     i = j;
+                    // } else {
+                    //     i = j;
+                    // }
+// 这里就必须要记得更新 i = j 
+// 之前只通过 i = j - 1 来更新 i 的值
+// 因为如果最后一个区间也被合并的话，就会出现下一次的值是i++ ，无论中间已经合并了多少个区间。
+// 这样就可以避免重复添加最后一个区间的问题。
+class Solution {
 public:
-    static bool compareFirstElement(const std::vector<int> &a, const std::vector<int> &b)
-    {
-        return a[0] < b[0];
-    }
-
-    vector<vector<int>> merge(vector<vector<int>> &intervals)
-    {
-        std::sort(intervals.begin(), intervals.end(), compareFirstElement);
-
-        return intervals;
+    static bool compare1(vector<int> a, vector<int> b) { return a[0] < b[0]; }
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+    std:
+        sort(intervals.begin(), intervals.end(), compare1);
+        vector<vector<int>> rtn;
+        for (int i = 0; i < intervals.size(); i++) {
+            int min = intervals[i][0];
+            int max = intervals[i][1];
+            for (int j = i + 1; j < intervals.size(); j++) {
+                if (intervals[j][0] > max) {
+                    i = j - 1;
+                    break;
+                } else {
+                    if (intervals[j][1] >= max) {
+                        max = intervals[j][1];
+                        i = j;
+                    } else {
+                        i = j;
+                    }
+                }
+            }
+            vector<int> tmp = {min, max};
+            rtn.push_back(tmp);
+        }
+        return rtn;
     }
 };
+
+// 这个也是对的，这个更好
+// class Solution {
+// public:
+//     static bool compare1(vector<int> a, vector<int> b) { return a[0] < b[0]; }
+//     vector<vector<int>> merge(vector<vector<int>>& intervals) {
+//     std:
+//         sort(intervals.begin(), intervals.end(), compare1);
+//         vector<vector<int>> rtn;
+//         for (int i = 0; i < intervals.size(); i++) {
+//             int min = intervals[i][0];
+//             int max = intervals[i][1];
+//             for (int j = i + 1; j < intervals.size(); j++) {
+//                 if (intervals[j][0] > max) {
+//                     i = j - 1;
+//                     break;
+//                 } else {
+//                     if (intervals[j][1] >= max) {
+//                         max = intervals[j][1];
+//                     } 
+//                 }
+//                 i = j;
+//             }
+//             vector<int> tmp = {min, max};
+//             rtn.push_back(tmp);
+//         }
+//         return rtn;
+//     }
+// };
 // @lc code=end
 
 /*
