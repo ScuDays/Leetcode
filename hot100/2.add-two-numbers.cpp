@@ -87,6 +87,57 @@ class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
         
+        struct ListNode* rtn_List = new ListNode(0);
+        struct ListNode* rtn = rtn_List;
+
+        int over = 0;
+        while (1) {
+            if (l1 == nullptr)
+                break;
+            if (l2 == nullptr)
+                break;
+            int value = l1->val + l2->val + over;
+            over = 0;
+            if(value >= 10){
+                over = 1;
+                value = value - 10; 
+            }
+            struct ListNode* tmp = new ListNode(0);
+            tmp->val = value;
+            rtn_List->next = tmp;
+            rtn_List = rtn_List->next;
+            l1 = l1->next;
+            l2 = l2->next;
+        }
+        struct ListNode* l3;
+        if(l1 == nullptr){
+            l3 = l2;
+        }
+        else{
+            l3 = l1;
+        }
+        while(1){
+            if (l3 == nullptr)
+                break;
+            int value = l3->val + over;
+            over = 0;
+            if(value >= 10){
+                over = 1;
+                value = value - 10; 
+            }
+            struct ListNode* tmp = new ListNode(0);
+            tmp->val = value;
+            rtn_List->next = tmp;
+            rtn_List = rtn_List->next;
+            l3 = l3->next;
+        }
+        if(over == 1){
+            struct ListNode* tmp = new ListNode(0);
+            tmp->val = 1;
+            rtn_List->next = tmp;
+            rtn_List = rtn_List->next;
+        }
+        return rtn->next;
     }
 };
 // @lc code=end
