@@ -83,6 +83,12 @@ using namespace std;
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+
+ // 这道题卡了半天，题目有一个问题，然后又两个别的问题。
+ // 题目问题：1：记得把进位 over 给清了
+ // 别的问题：1：如果用malloc分配内存，一定要初始化所有数据，或者用memset清空数据。
+ //          2：力扣里面如果用C++ 就要用 new ，因为他对应地使用delete 释放内存。
+ //             如果选C 就要用 malloc 和 free。
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
