@@ -83,6 +83,7 @@ using namespace std;
 // @lc code=start
 
 // 这道题关键在于str什么时候要被压栈清空，什么时候不被清空接着计算。
+// 如果后面是 [ 说明他是下一级的运算，要将当前str压栈清空，如果后面接着是字母的话就会添加在str后面。
 class Solution {
 public:
     string decodeString(string s) {
