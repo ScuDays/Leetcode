@@ -64,6 +64,9 @@ using namespace std;
 #include <vector>
 // @lcpr-template-end
 // @lc code=start
+
+// 两次dfs
+// 分别代表 选当前的 不选当前的。
 class Solution {
 public:
 
@@ -76,6 +79,7 @@ public:
             return;
         }
         dfs(nums, i + 1);
+
         path.push_back(nums[i]);
         dfs(nums, i + 1);
         path.pop_back();
