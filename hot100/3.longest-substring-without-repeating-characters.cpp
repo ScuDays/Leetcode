@@ -24,49 +24,32 @@ using namespace std;
 #include <vector>
 // @lcpr-template-end
 // @lc code=start
-class Solution
-{
+class Solution {
 public:
-    int lengthOfLongestSubstring(string s)
-    {
-        if (s.size() < 2)
-            return s.size();
-        int themax = 0;
-        int right = 0;
-        int left = 1;
-        // int current = 1;
-        while (left < s.size())
-        {
+    int lengthOfLongestSubstring(string s) {
+        if(s.size() == 0)return 0;
+        unordered_set<char> set;
+        int current = 0;
+        int max = 1;
 
-            if (left == s.size() - 1)
-            {   
-                int a = 0;
-                for (int i = right; i < left; i++)
-                {
-                    if (s[i] == s[left])
-                    {
-                        themax = max(themax, left - right);
-                        a = 1;
-                        // current = 1;
-                    }
-                }
-                if(a == 0 ){
-                    themax = max(themax, left - right + 1);
-                }
-               
+        for(int right = 0,left = 0; right < s.size(); right ++){
+            if(set.count(s[right] == 0)){
+                set.insert(s[right]);
+                current ++;
+                max = std::max(current, max);
             }
-            for (int i = right; i < left; i++)
-            {
-                if (s[i] == s[left])
-                {
-                    themax = max(themax, left - right);
-                    right = i + 1;
-                    // current = 1;
+            else{
+                while(set.count(s[right]) != 0){
+                    set.erase(s[left]);
+                    left ++;
+                    current --;
                 }
-            }
-            left++;
+                set.insert(s[right]);
+                current ++;
+                max = std::max(current, max);
+            } 
         }
-        return themax;
+        return max;
     }
 };
 // @lc code=end
