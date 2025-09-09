@@ -93,22 +93,38 @@ using namespace std;
 
 // 所以用reverse反转后用pop_back代替
 // reverse 复杂度O(N),pop_back复杂度O(1)
+// class Solution {
+// public:
+//     void rotate(vector<int>& nums, int k) {
+//         int length = nums.size();
+//         k = k % length;
+//         k = length - k;
+//         for(int i = 0; i < k; i++){
+//             nums.push_back(nums[i]);
+//         }
+//         std::reverse(nums.begin(), nums.end());
+//         for(int i = 0; i < k; i++){
+//             nums.pop_back();
+//         }
+//         std::reverse(nums.begin(), nums.end());
+//     }
+// };
+
+
+//更好的方法
+//反转三次
+// 第一次全部反转
+// 第二次第三次 分别反转前k个和后n-k个。
 class Solution {
 public:
     void rotate(vector<int>& nums, int k) {
-        int length = nums.size();
-        k = k % length;
-        k = length - k;
-        for(int i = 0; i < k; i++){
-            nums.push_back(nums[i]);
-        }
-        std::reverse(nums.begin(), nums.end());
-        for(int i = 0; i < k; i++){
-            nums.pop_back();
-        }
-        std::reverse(nums.begin(), nums.end());
+        k %= nums.size(); // 轮转 k 次等于轮转 k % n 次
+        reverse(nums.begin(), nums.end());
+        reverse(nums.begin(), nums.begin() + k);
+        reverse(nums.begin() + k, nums.end());
     }
 };
+
 // @lc code=end
 
 

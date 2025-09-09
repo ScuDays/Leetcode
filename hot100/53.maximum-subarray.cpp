@@ -135,16 +135,23 @@ public:
         // return themax;
         // 上面的思路有一点问题
         // 但是记住一个思路，前缀和可以把操作结合在计算前缀的路上。
-        // int ret = INT_MIN;
-        // int pre_min = 0;
-        // int current = 0;
+        int ret = INT_MIN;
+        int pre_min = 0;
+        int current = 0;
+        
+        // 每次比较当前最小前缀和 和当前前缀和，计算出 差值 并和之前记录的ret比较 得到当前最大的子序列
+        for(auto i: nums){
+            current += i;
 
-        // for(auto i: nums){
-        //     current += i;
-        //     ret = max(ret, current - pre_min);
-        //     pre_min = min(pre_min, current);
-        // }
-        // return ret;
+
+            // 下面两行代码顺序不能换，因为 pre_min 必须是 “截止到上一个元素为止” 的最小前缀和，而不是包含当前元素的
+            // 当只有一个元素的时候，就没有前面最小的前缀和。
+            // 每次比较一下 当前
+            ret = max(ret, current - pre_min);
+            // 最小前缀和
+            pre_min = min(pre_min, current);
+        }
+        return ret;
     }
 };
 // @lc code=end
