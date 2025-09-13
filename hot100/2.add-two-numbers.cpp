@@ -89,61 +89,85 @@ using namespace std;
  // 别的问题：1：如果用malloc分配内存，一定要初始化所有数据，或者用memset清空数据。
  //          2：力扣里面如果用C++ 就要用 new ，因为他对应地使用delete 释放内存。
  //             如果选C 就要用 malloc 和 free。
+// class Solution {
+// public:
+//     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        
+//         struct ListNode* rtn_List = new ListNode(0);
+//         struct ListNode* rtn = rtn_List;
+
+//         int over = 0;
+//         while (1) {
+//             if (l1 == nullptr)
+//                 break;
+//             if (l2 == nullptr)
+//                 break;
+//             int value = l1->val + l2->val + over;
+//             over = 0;
+//             if(value >= 10){
+//                 over = 1;
+//                 value = value - 10; 
+//             }
+//             struct ListNode* tmp = new ListNode(0);
+//             tmp->val = value;
+//             rtn_List->next = tmp;
+//             rtn_List = rtn_List->next;
+//             l1 = l1->next;
+//             l2 = l2->next;
+//         }
+//         struct ListNode* l3;
+//         if(l1 == nullptr){
+//             l3 = l2;
+//         }
+//         else{
+//             l3 = l1;
+//         }
+//         while(1){
+//             if (l3 == nullptr)
+//                 break;
+//             int value = l3->val + over;
+//             over = 0;
+//             if(value >= 10){
+//                 over = 1;
+//                 value = value - 10; 
+//             }
+//             struct ListNode* tmp = new ListNode(0);
+//             tmp->val = value;
+//             rtn_List->next = tmp;
+//             rtn_List = rtn_List->next;
+//             l3 = l3->next;
+//         }
+//         if(over == 1){
+//             struct ListNode* tmp = new ListNode(0);
+//             tmp->val = 1;
+//             rtn_List->next = tmp;
+//             rtn_List = rtn_List->next;
+//         }
+//         return rtn->next;
+//     }
+// };
+
+
 class Solution {
 public:
-    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        
-        struct ListNode* rtn_List = new ListNode(0);
-        struct ListNode* rtn = rtn_List;
-
-        int over = 0;
-        while (1) {
-            if (l1 == nullptr)
-                break;
-            if (l2 == nullptr)
-                break;
-            int value = l1->val + l2->val + over;
-            over = 0;
-            if(value >= 10){
-                over = 1;
-                value = value - 10; 
-            }
-            struct ListNode* tmp = new ListNode(0);
-            tmp->val = value;
-            rtn_List->next = tmp;
-            rtn_List = rtn_List->next;
+    ListNode* __addTwoNumbers(ListNode* l1, ListNode* l2, int carry){
+        if(l1 == nullptr && l2 == nullptr && carry == 0){
+            return nullptr;
+        }
+        int tmp = carry;
+        if(l1){
+            tmp += l1->val;
             l1 = l1->next;
+        }
+        if(l2){
+            tmp += l2->val;
             l2 = l2->next;
         }
-        struct ListNode* l3;
-        if(l1 == nullptr){
-            l3 = l2;
-        }
-        else{
-            l3 = l1;
-        }
-        while(1){
-            if (l3 == nullptr)
-                break;
-            int value = l3->val + over;
-            over = 0;
-            if(value >= 10){
-                over = 1;
-                value = value - 10; 
-            }
-            struct ListNode* tmp = new ListNode(0);
-            tmp->val = value;
-            rtn_List->next = tmp;
-            rtn_List = rtn_List->next;
-            l3 = l3->next;
-        }
-        if(over == 1){
-            struct ListNode* tmp = new ListNode(0);
-            tmp->val = 1;
-            rtn_List->next = tmp;
-            rtn_List = rtn_List->next;
-        }
-        return rtn->next;
+        return new ListNode(tmp % 10, __addTwoNumbers(l1 , l2, (tmp / 10)));
+    }
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode* rtn = __addTwoNumbers(l1, l2, 0);
+        return rtn;
     }
 };
 // @lc code=end
