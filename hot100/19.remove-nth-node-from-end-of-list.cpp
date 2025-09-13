@@ -82,48 +82,64 @@ using namespace std;
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-class Solution
-{
+// class Solution
+// {
+// public:
+//     ListNode *removeNthFromEnd(ListNode *head, int n)
+//     {
+//         vector<ListNode *> nodeList;
+//         // 为什么需要有哨兵节点？
+//         // 我们需要对第一个节点一视同仁，因为后面的每一个节点都有一个前节点可以操作。
+//         // 所以我们虚拟出一个哨兵节点
+
+
+//         //我的做法：
+//         //用一个数组存遍历中的倒数n+1个节点，遍历到结尾就知道倒数第n个节点的前一个就行了
+
+//         //好的做法：
+//         //思路差不多，但是不用数组存的，直接用两个隔着固定距离的指针就可以了。
+//         ListNode *Sentinel = new ListNode(0, head);
+//         ListNode *loopNode = Sentinel;
+//         while (loopNode != nullptr)
+//         {
+//             if (nodeList.size() != n + 1)
+//             {
+//                 nodeList.push_back(loopNode);
+//             }
+//             else
+//             {
+//                 nodeList.erase(nodeList.begin());
+//                 nodeList.push_back(loopNode);
+//             }
+//             loopNode = loopNode->next;
+//         }
+//         ListNode *nodeBefore = nodeList[0];
+//         ListNode *nodeDelete = nodeList[1];
+//         if (nodeDelete->next == nullptr)
+//         {
+//             nodeBefore->next = nullptr;
+//         }
+//         else
+//         {
+//             nodeBefore->next = nodeBefore->next->next;
+//         }
+//         return Sentinel->next;
+//     }
+// };
+
+class Solution {
 public:
-    ListNode *removeNthFromEnd(ListNode *head, int n)
-    {
-        vector<ListNode *> nodeList;
-        // 为什么需要有哨兵节点？
-        // 我们需要对第一个节点一视同仁，因为后面的每一个节点都有一个前节点可以操作。
-        // 所以我们虚拟出一个哨兵节点
-
-
-        //我的做法：
-        //用一个数组存遍历中的倒数n+1个节点，遍历到结尾就知道倒数第n个节点的前一个就行了
-
-        //好的做法：
-        //思路差不多，但是不用数组存的，直接用两个隔着固定距离的指针就可以了。
-        ListNode *Sentinel = new ListNode(0, head);
-        ListNode *loopNode = Sentinel;
-        while (loopNode != nullptr)
-        {
-            if (nodeList.size() != n + 1)
-            {
-                nodeList.push_back(loopNode);
-            }
-            else
-            {
-                nodeList.erase(nodeList.begin());
-                nodeList.push_back(loopNode);
-            }
-            loopNode = loopNode->next;
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode* sentinel = new ListNode(0, head);
+        ListNode* front = sentinel;
+        ListNode* back = sentinel;
+        for(int i = 0; i < n; i++)front = front->next;
+        while(front->next){
+            front = front->next;
+            back = back->next;
         }
-        ListNode *nodeBefore = nodeList[0];
-        ListNode *nodeDelete = nodeList[1];
-        if (nodeDelete->next == nullptr)
-        {
-            nodeBefore->next = nullptr;
-        }
-        else
-        {
-            nodeBefore->next = nodeBefore->next->next;
-        }
-        return Sentinel->next;
+        back->next = back->next->next;
+        return sentinel->next;
     }
 };
 // @lc code=end
