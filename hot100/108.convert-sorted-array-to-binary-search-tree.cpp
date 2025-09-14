@@ -91,21 +91,36 @@ using namespace std;
 
  // 二分递归
  // 出现问题，传指针的时候，我们要修改指针的值，所以要传指针的指针，前面忘了这个事情了。
+// class Solution {
+//     public:
+//         TreeNode* sortedArrayToBST(vector<int>& nums) {
+//             TreeNode* root = nullptr;
+//             recure(&root, nums, 0, nums.size() - 1);
+//             return root;
+//         }
+//         void recure(TreeNode** root, vector<int> &nums, int left, int right){
+//             if(left > right)return;
+//             int mid = (right - left) / 2 + left;
+//             *root = new TreeNode(nums[mid]);
+//             recure(&((*root)->left), nums, left, mid - 1);
+//             recure(&((*root)->right), nums, mid + 1, right);
+//         }
+//     };
+
+// 第二次写
+// 使用 left > right 对应左闭右闭
 class Solution {
-    public:
-        TreeNode* sortedArrayToBST(vector<int>& nums) {
-            TreeNode* root = nullptr;
-            recure(&root, nums, 0, nums.size() - 1);
-            return root;
-        }
-        void recure(TreeNode** root, vector<int> &nums, int left, int right){
-            if(left > right)return;
-            int mid = (right - left) / 2 + left;
-            *root = new TreeNode(nums[mid]);
-            recure(&((*root)->left), nums, left, mid - 1);
-            recure(&((*root)->right), nums, mid + 1, right);
-        }
-    };c code=end
+public:
+    TreeNode* __sortedArrayToBST(vector<int>& nums, int left, int right){
+        if(left > right)return nullptr;
+        int mid = left + (right - left) / 2;
+        return new TreeNode(nums[mid], __sortedArrayToBST(nums, left, mid - 1), __sortedArrayToBST(nums, mid + 1, right));
+    }
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        return __sortedArrayToBST(nums, 0, nums.size() - 1);
+    }
+};
+// @lc code=end
 
 
 
