@@ -93,27 +93,46 @@ using namespace std;
      // 可以使用层序遍历
      // 我这里直接还是用递归刀最底下
 
-     class Solution {
-        public:
-            int depth;
-            int maxDepth(TreeNode* root) {
-                depth = 0;
-                recure(root, depth);
-                return depth;
-            }
-            void recure(TreeNode *root , int CurrentDepth){
-                if(root == nullptr){
-                    return;
-                }else{
-                    CurrentDepth ++;
-                }
-                if(CurrentDepth > depth){
-                    depth = CurrentDepth;
-                }
-                recure(root->left, CurrentDepth);
-                recure(root->right, CurrentDepth);
-            }
-        };
+    // 第一次做
+    //  class Solution {
+    //     public:
+    //         int depth;
+    //         int maxDepth(TreeNode* root) {
+    //             depth = 0;
+    //             recure(root, depth);
+    //             return depth;
+    //         }
+    //         void recure(TreeNode *root , int CurrentDepth){
+    //             if(root == nullptr){
+    //                 return;
+    //             }else{
+    //                 CurrentDepth ++;
+    //             }
+    //             if(CurrentDepth > depth){
+    //                 depth = CurrentDepth;
+    //             }
+    //             recure(root->left, CurrentDepth);
+    //             recure(root->right, CurrentDepth);
+    //         }
+    //     };
+
+    //第二次做
+// class Solution {
+// public:
+
+//     void __maxDepth(TreeNode* root, int current, int* int_max){
+//         if(!root)return;
+//         current++;
+//         *int_max = std::max(current, *int_max);
+//         __maxDepth(root->right, current, int_max);
+//         __maxDepth(root->left, current, int_max);       
+//     }
+//     int maxDepth(TreeNode* root) {
+//         int int_max = 0;
+//         __maxDepth(root, 0, &int_max);
+//         return int_max;
+//     }
+// };
 // @lc code=end
 
 

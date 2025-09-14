@@ -92,17 +92,34 @@ using namespace std;
 //     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
 //     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 // };
+
+// 第一次
+// class Solution {
+// public:
+//     TreeNode* invertTree(TreeNode* root) {
+//         if(root == nullptr){
+//             return nullptr;
+//         }
+//         TreeNode *tre = root->left;
+//         root->left = root->right;
+//         root->right = tre;
+//         invertTree(root->left);
+//         invertTree(root->right);
+//         return root;
+//     }
+// };
+
+//第二次
+
 class Solution {
 public:
     TreeNode* invertTree(TreeNode* root) {
-        if(root == nullptr){
-            return nullptr;
-        }
-        TreeNode *tre = root->left;
-        root->left = root->right;
-        root->right = tre;
+        if(!root)return nullptr;
         invertTree(root->left);
         invertTree(root->right);
+        TreeNode* tmp = root->right;
+        root->right = root->left;
+        root->left = tmp;
         return root;
     }
 };
