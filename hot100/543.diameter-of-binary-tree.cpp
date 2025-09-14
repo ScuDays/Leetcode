@@ -89,42 +89,60 @@ using namespace std;
     
 
 // 解法：用的双递归暴力
+// class Solution {
+// public:
+ 
+//     int result = 0;
+//     int diameterOfBinaryTree(TreeNode *root){
+//         if(root == nullptr)return 0;
+//         diameterOfBinaryTree(root->left);
+//         diameterOfBinaryTree(root->right);
+//         recure1(root);
+
+//         return result;
+//     }
+    
+//     int recure1(TreeNode* root) {
+//         int left = 0;
+//         int right = 0;
+//         recure(root->left, 0, &left);
+//         recure(root->right, 0, &right);
+
+//         if(left + right > result){
+//             result = left + right;
+//         }
+//         return left + right;
+//     }
+
+//     void recure(TreeNode *root , int CurrentDepth, int *depth){
+//         if(root == nullptr){
+//             return;
+//         }else{
+//             CurrentDepth ++;
+//         }
+//         if(CurrentDepth > *depth){
+//             *depth = CurrentDepth;
+//         }
+//         recure(root->left, CurrentDepth, depth);
+//         recure(root->right, CurrentDepth, depth);
+//     }
+// };
+
+// 第二次
+
 class Solution {
 public:
- 
-    int result = 0;
-    int diameterOfBinaryTree(TreeNode *root){
-        if(root == nullptr)return 0;
-        diameterOfBinaryTree(root->left);
-        diameterOfBinaryTree(root->right);
-        recure1(root);
-
-        return result;
+    int ans;
+    int dfs(TreeNode* root){
+        if(!root)return 0;
+        int l = dfs(root->left);
+        int r = dfs(root->right);
+        ans = max(l + r, ans);
+        return max(l, r) + 1;
     }
-    
-    int recure1(TreeNode* root) {
-        int left = 0;
-        int right = 0;
-        recure(root->left, 0, &left);
-        recure(root->right, 0, &right);
-
-        if(left + right > result){
-            result = left + right;
-        }
-        return left + right;
-    }
-
-    void recure(TreeNode *root , int CurrentDepth, int *depth){
-        if(root == nullptr){
-            return;
-        }else{
-            CurrentDepth ++;
-        }
-        if(CurrentDepth > *depth){
-            *depth = CurrentDepth;
-        }
-        recure(root->left, CurrentDepth, depth);
-        recure(root->right, CurrentDepth, depth);
+    int diameterOfBinaryTree(TreeNode* root) {
+        dfs(root);
+        return ans;
     }
 };
 // @lc code=end
