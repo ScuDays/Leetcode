@@ -85,30 +85,53 @@ using namespace std;
  // 解法：
  // 对于每一个节点有min和max，保证节点大于min，小于max
  // 每次对于左节点更新max并启动max，对于右节点更新min并启用min。
-class Solution {
-    public:
-        bool result = true;
-        bool isValidBST(TreeNode* root) {
-            if(root == nullptr)return true;
-            recure(root->left, 0, root->val, false, true);
-            recure(root->right, root->val, 0, true, false);
-            return result;
-        }
-        void recure(TreeNode* root, int min, int max, bool ifMin, bool ifMax){
-            if(root == nullptr)return;
-            if(ifMin == true && root->val <= min){
-                result = false;
-                return;
-            }
-            if(ifMax == true && root->val >= max){
-                result = false;
-                return;
-            }
+// class Solution {
+//     public:
+//         bool result = true;
+//         bool isValidBST(TreeNode* root) {
+//             if(root == nullptr)return true;
+//             recure(root->left, 0, root->val, false, true);
+//             recure(root->right, root->val, 0, true, false);
+//             return result;
+//         }
+//         void recure(TreeNode* root, int min, int max, bool ifMin, bool ifMax){
+//             if(root == nullptr)return;
+//             if(ifMin == true && root->val <= min){
+//                 result = false;
+//                 return;
+//             }
+//             if(ifMax == true && root->val >= max){
+//                 result = false;
+//                 return;
+//             }
     
-            recure(root->left, min, root->val, ifMin, true);
-            recure(root->right, root->val, max, true, ifMax);
+//             recure(root->left, min, root->val, ifMin, true);
+//             recure(root->right, root->val, max, true, ifMax);
+//         }
+//     };
+
+// 第二次
+class Solution {
+public:
+    // lower: 下层 表示当前节点必须比下层大
+    // upper: 上层 表示当前节点必须比上层小
+    bool __dfs(TreeNode* root, long long lower, long long upper) {
+        if (!root)
+            return true;
+
+        if (root->val <= lower || root->val >= upper) {
+            return false;
         }
-    };
+        // 在递归中修改条件，左节点必须比当前节点小，修改上层条件，同理右节点
+        // 那为什么不用max 和 min 呢？因为本身已经保证了左节点比当前节点小，否则返回false了，
+        // 所以不需要用min 或者 max。
+        return __dfs(root->left, lower, root->val) &&
+               __dfs(root->right, root->val, upper);
+    }
+    bool isValidBST(TreeNode* root) { 
+        return __dfs(root, LONG_MIN, LONG_MAX); 
+    }
+};
 // @lc code=end
 
 
