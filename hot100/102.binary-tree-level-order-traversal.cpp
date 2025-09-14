@@ -87,40 +87,77 @@ using namespace std;
 //     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
 //     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 // };
-class Solution
-{
+
+// 第一次
+// class Solution
+// {
+// public:
+//     vector<vector<int>> levelOrder(TreeNode *root)
+//     {
+//         queue<TreeNode *> que;
+//         vector<vector<int>> result;
+//         if (root != nullptr)
+//         {
+//             que.push(root);
+//         }
+//         int locat = 0;
+//         while (!que.empty())
+//         {
+//             vector<int> vec;
+//             int size = que.size();
+//             for (int i = 0; i < size; i++)
+//             {
+//                 TreeNode *tre = que.front();
+//                 que.pop();
+//                 vec.push_back(tre->val);
+//                 if (tre->left != nullptr)
+//                 {
+//                     que.push(tre->left);
+//                 }
+//                 if (tre->right != nullptr)
+//                 {
+//                     que.push(tre->right);
+//                 }
+//             }
+//             result.push_back(vec);
+//             locat++;
+//         }
+//         return result;
+//     }
+// };
+
+// 第二次
+class Solution {
 public:
-    vector<vector<int>> levelOrder(TreeNode *root)
-    {
-        queue<TreeNode *> que;
-        vector<vector<int>> result;
-        if (root != nullptr)
-        {
-            que.push(root);
-        }
-        int locat = 0;
-        while (!que.empty())
-        {
-            vector<int> vec;
-            int size = que.size();
-            for (int i = 0; i < size; i++)
-            {
-                TreeNode *tre = que.front();
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        // 注意这里
+        if (!root)
+            return vector<vector<int>>();
+        queue<TreeNode*> que;
+        que.push(root);
+        int loop = 1;
+        vector<vector<int>> ans_vec;
+        while (que.size() != 0) {
+            int next_loop = 0;
+            vector<int> temp_vec;
+            for (int i = 0; i < loop; i++) {
+                TreeNode* temp_node = que.front();
                 que.pop();
-                vec.push_back(tre->val);
-                if (tre->left != nullptr)
-                {
-                    que.push(tre->left);
+                temp_vec.push_back(temp_node->val);
+                // 注意这里先left后right
+                if (temp_node->left) {
+                    que.push(temp_node->left);
+                    next_loop++;
                 }
-                if (tre->right != nullptr)
-                {
-                    que.push(tre->right);
+                if (temp_node->right) {
+                    que.push(temp_node->right);
+                    next_loop++;
                 }
             }
-            result.push_back(vec);
-            locat++;
+            loop = next_loop;
+            ans_vec.push_back(temp_vec);
         }
-        return result;
+        return ans_vec;
     }
 };
 // @lc code=end
