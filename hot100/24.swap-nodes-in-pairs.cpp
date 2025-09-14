@@ -77,25 +77,46 @@ using namespace std;
  * };
  */
 
+// class Solution
+// {
+// public:
+//     ListNode *swapPairs(ListNode *head)
+//     {
+//         ListNode *Sentail = new ListNode(0, head);
+//         ListNode *ahead = Sentail;
+//         while(ahead->next != nullptr){
+//             ListNode *Before = ahead->next;
+//             if(Before->next == nullptr){
+//                 break;
+//             }
+//             ListNode *After = Before->next;
+//             Before->next = After->next;
+//             ahead->next = After;
+//             After->next = Before;
+//             ahead = Before;
+//         }
+//         return Sentail->next;
+//     }
+// };
 class Solution
 {
 public:
     ListNode *swapPairs(ListNode *head)
     {
-        ListNode *Sentail = new ListNode(0, head);
-        ListNode *ahead = Sentail;
-        while(ahead->next != nullptr){
-            ListNode *Before = ahead->next;
-            if(Before->next == nullptr){
-                break;
-            }
-            ListNode *After = Before->next;
-            Before->next = After->next;
-            ahead->next = After;
-            After->next = Before;
-            ahead = Before;
+        ListNode* sentinel = new ListNode(0 , head);
+        ListNode* current = sentinel;
+        while(current->next != nullptr && current->next->next != nullptr){
+            ListNode* left = current->next;
+            ListNode* right = current->next->next;
+            ListNode* tmp = right->next;
+            // 这里这一步千万不能漏，不然只在内部交换了两个节点，但没有将交换后的这对节点与链表的前一个部分重新连接起来。
+            current->next = right;
+            right->next = left;
+            left->next = tmp;
+            current = left;
+            if(current == nullptr)break;
         }
-        return Sentail->next;
+        return sentinel->next;
     }
 };
 // @lc code=end

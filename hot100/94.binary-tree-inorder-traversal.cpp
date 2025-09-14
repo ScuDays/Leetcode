@@ -93,20 +93,35 @@ using namespace std;
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
-    public:
-    vector <int> rtn;
-        vector<int> inorderTraversal(TreeNode* root) {
-            if(root == nullptr){
-                return rtn;
-            }
-            inorderTraversal(root->left);
-            rtn.push_back(root->val);
-            inorderTraversal(root->right);
-            return rtn;
-        }
+// class Solution {
+//     public:
+//     vector <int> rtn;
+//         vector<int> inorderTraversal(TreeNode* root) {
+//             if(root == nullptr){
+//                 return rtn;
+//             }
+//             inorderTraversal(root->left);
+//             rtn.push_back(root->val);
+//             inorderTraversal(root->right);
+//             return rtn;
+//         }
     
-    };
+//     };
+
+class Solution {
+public:
+    void __inorderTraversal(TreeNode* root, vector<int> *vec){
+        if(root == nullptr)return;
+        __inorderTraversal(root->left, vec);
+        vec->push_back(root->val);
+        __inorderTraversal(root->right, vec);
+    }
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> vec;
+        __inorderTraversal(root, &vec);
+        return vec;
+    }
+};
 // @lc code=end
 
 
