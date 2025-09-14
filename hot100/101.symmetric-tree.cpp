@@ -88,49 +88,63 @@ using namespace std;
     
 
 // 我的思路，把左右两棵树，分别对称递归填到数组里，然后比较数组。
+// class Solution {
+// public:
+
+//     bool isSymmetric(TreeNode* root) {
+//         vector<int> vec1;
+//         vector<int> vec2;
+//         addAll1(root->left, &vec1);
+//         addAll2(root->right, &vec2);
+//         if(vec1.size() != vec2.size()){
+//             return false;
+//         }
+//         for(int i = 0; i < vec1.size(); i++){
+//             printf("%d %d\n",vec1[i], vec2[i]);
+//         }
+//         for(int i = 0; i < vec1.size(); i++){
+//             if(vec1[i] != vec2[i])return false;
+//         }
+
+//         return true;
+//     }
+//     void addAll1(TreeNode *root, vector<int> *vec){
+//         if(root == nullptr){
+//             (*vec).push_back(-1);
+//             return;
+//         }  
+//         (*vec).push_back(root->val);
+//         addAll1(root->left, vec);
+
+//         addAll1(root->right, vec);
+
+//         return;
+//     }
+//     void addAll2(TreeNode *root, vector<int> *vec){
+//         if(root == nullptr){
+//             (*vec).push_back(-1);
+//             return;
+//         }  
+//         (*vec).push_back(root->val);
+//         addAll2(root->right, vec);
+
+//         addAll2(root->left, vec);
+
+//         return;
+//     }
+// };
+
+// 同时从两边各有一个节点开始遍历判断这两个相等不
 class Solution {
 public:
 
+    bool __isSymmetric(TreeNode* p, TreeNode* q){
+        if(!p && !q)return true;
+        if(( !p && q ) || ( p && !q))return false;
+        return (p->val == q->val) && __isSymmetric(p->left, q->right) && __isSymmetric(p->right, q->left);
+    }
     bool isSymmetric(TreeNode* root) {
-        vector<int> vec1;
-        vector<int> vec2;
-        addAll1(root->left, &vec1);
-        addAll2(root->right, &vec2);
-        if(vec1.size() != vec2.size()){
-            return false;
-        }
-        for(int i = 0; i < vec1.size(); i++){
-            printf("%d %d\n",vec1[i], vec2[i]);
-        }
-        for(int i = 0; i < vec1.size(); i++){
-            if(vec1[i] != vec2[i])return false;
-        }
-
-        return true;
-    }
-    void addAll1(TreeNode *root, vector<int> *vec){
-        if(root == nullptr){
-            (*vec).push_back(-1);
-            return;
-        }  
-        (*vec).push_back(root->val);
-        addAll1(root->left, vec);
-
-        addAll1(root->right, vec);
-
-        return;
-    }
-    void addAll2(TreeNode *root, vector<int> *vec){
-        if(root == nullptr){
-            (*vec).push_back(-1);
-            return;
-        }  
-        (*vec).push_back(root->val);
-        addAll2(root->right, vec);
-
-        addAll2(root->left, vec);
-
-        return;
+        return __isSymmetric(root->right, root->left);
     }
 };
 // @lc code=end
